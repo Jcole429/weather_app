@@ -5,7 +5,11 @@ const app = express();
 const port = 3000;
 
 app.get("/", (req, res) => {
-    res.send("Hello World");
+    getLocationInfo("Wharton", "NJ", "07885", (locationInfo) => {
+        getWeatherInfo(locationInfo.lat, locationInfo.lon, "Imperial", (weatherInfo) => {
+            res.send("The weather in " + locationInfo.name + " is " + weatherInfo.main.temp + " degrees.");
+        });
+    });
 });
 
 app.listen(port, () => {
