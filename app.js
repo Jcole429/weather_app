@@ -24,3 +24,16 @@ function getLocationInfo(city, state, zip, fn) {
         });
     });
 }
+
+function getWeatherInfo(lat, lon, units, fn) {
+    const baseUrl = "https://api.openweathermap.org/data/2.5/weather?appid=" + apiKey;
+    const url = baseUrl + "&lat=" + lat + "&lon=" + lon + "&units=" + units;
+    https.get(url, (res) => {
+        res.on("data", (data) => {
+            const weatherData = JSON.parse(data);
+            console.log("weatherData:");
+            console.log(weatherData);
+            fn(weatherData);
+        })
+    })
+}
