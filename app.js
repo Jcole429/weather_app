@@ -7,7 +7,16 @@ const port = 3000;
 app.get("/", (req, res) => {
     getLocationInfo("Wharton", "NJ", "07885", (locationInfo) => {
         getWeatherInfo(locationInfo.lat, locationInfo.lon, "Imperial", (weatherInfo) => {
-            res.send("The weather in " + locationInfo.name + " is " + weatherInfo.main.temp + " degrees.");
+            const city = locationInfo.name;
+            const temp = weatherInfo.main.temp;
+            const weatherDescription = weatherInfo.weather[0].description;
+            const icon = weatherInfo.weather[0].icon;
+            const imageUrl = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
+
+            res.write("<p> The weather is currently " + weatherDescription + "</p>");
+            res.write("<h1>The temperature in " + city + " is " + temp + " degrees.</h1>");
+            res.write("<img src=" + imageUrl + ">");
+            res.send();
         });
     });
 });
